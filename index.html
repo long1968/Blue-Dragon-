@@ -1,0 +1,2505 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Game ôn thi Australian Values với 65 câu hỏi song ngữ Anh–Việt.">
+  <title>Ai Là Triệu Phú – Giá trị Úc</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23050b26' stroke='%23e6b94f' stroke-width='4'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='38' font-family='Arial' font-weight='700' fill='%23f5d77f'%3E%3F%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --navy-950: #020617;
+      --navy-900: #050b26;
+      --navy-800: #0a1440;
+      --blue-700: #152d73;
+      --blue-500: #2c57bb;
+      --gold: #e6b94f;
+      --gold-bright: #f7d878;
+      --gold-pale: #fff1bc;
+      --text: #f8f3e2;
+      --muted: #aeb8d6;
+      --correct: #28b67a;
+      --correct-dark: #0b6848;
+      --wrong: #ef5a63;
+      --wrong-dark: #8e2530;
+      --panel: rgba(7, 15, 49, 0.88);
+      --border: rgba(230, 185, 79, 0.48);
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--navy-950); }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 8%, rgba(44, 87, 187, 0.3), transparent 32rem),
+        radial-gradient(circle at 78% 86%, rgba(119, 54, 190, 0.22), transparent 34rem),
+        linear-gradient(145deg, var(--navy-950), #070d2b 52%, #090621);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 84%);
+    }
+
+    button { font: inherit; }
+    button:focus-visible {
+      outline: 3px solid var(--gold-bright);
+      outline-offset: 4px;
+    }
+    [hidden] { display: none !important; }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      width: min(1440px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .start-screen {
+      width: min(760px, 100%);
+      min-height: calc(100vh - 56px);
+      margin: 0 auto;
+      padding: clamp(36px, 7vw, 86px);
+      display: grid;
+      place-content: center;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 36px;
+      background:
+        linear-gradient(150deg, rgba(14, 27, 83, .92), rgba(3, 8, 30, .96)),
+        var(--navy-900);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.06);
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .start-screen::before {
+      content: "?";
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      translate: -50% -50%;
+      z-index: -1;
+      font: 900 min(46vw, 430px)/1 Georgia, serif;
+      color: rgba(230, 185, 79, .038);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--gold);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--gold-bright);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.35rem, 7vw, 5rem);
+      line-height: .95;
+      letter-spacing: -.045em;
+      text-wrap: balance;
+      text-shadow: 0 0 34px rgba(230, 185, 79, .18);
+    }
+    h1 span { color: var(--text); font-size: .58em; letter-spacing: .08em; }
+
+    .start-copy {
+      max-width: 600px;
+      margin: 28px auto 16px;
+      color: #dce3f7;
+      font-size: clamp(1rem, 2.4vw, 1.25rem);
+      line-height: 1.7;
+    }
+
+    .start-rules {
+      margin: 8px auto 30px;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      list-style: none;
+      font-size: .94rem;
+    }
+
+    .start-rules li::before { content: "◆"; margin-right: 9px; color: var(--gold); font-size: .65em; }
+
+    .primary-button {
+      min-height: 54px;
+      min-width: 190px;
+      padding: 13px 26px;
+      border: 1px solid #ffe39a;
+      border-radius: 999px;
+      color: #161205;
+      background: linear-gradient(135deg, #ffe391, #d39a25);
+      box-shadow: 0 12px 30px rgba(211, 154, 37, .23), inset 0 1px 0 rgba(255,255,255,.6);
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .18s ease, filter .18s ease;
+    }
+
+    .game-screen { min-height: calc(100vh - 56px); }
+    .game-header {
+      min-height: 72px;
+      margin-bottom: 20px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border: 1px solid rgba(230,185,79,.28);
+      border-radius: var(--radius-md);
+      background: rgba(5, 11, 38, .72);
+      backdrop-filter: blur(16px);
+    }
+
+    .game-header .eyebrow { margin-bottom: 2px; }
+    .brand-title { margin: 0; color: var(--gold-pale); font: 700 1.25rem/1 Georgia, serif; letter-spacing: .06em; }
+    .mobile-status { display: none; }
+
+    .game-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 292px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .play-panel,
+    .ladder {
+      border: 1px solid rgba(230,185,79,.28);
+      background: var(--panel);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.04);
+      backdrop-filter: blur(18px);
+    }
+
+    .play-panel { min-width: 0; padding: clamp(18px, 3vw, 34px); border-radius: var(--radius-lg); }
+    .progress-row { display: flex; justify-content: space-between; gap: 16px; color: var(--muted); font-size: .86rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .progress-row p { margin: 0; }
+    #difficulty-label { color: var(--gold); }
+
+    .lifelines { margin: 22px 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    .lifelines button,
+    #ladder-toggle {
+      min-height: 48px;
+      padding: 10px 15px;
+      border: 1px solid rgba(230,185,79,.4);
+      border-radius: 999px;
+      color: var(--gold-pale);
+      background: rgba(18, 36, 99, .72);
+      font-weight: 800;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+    .lifelines button span { color: var(--gold); margin-right: 5px; }
+    .lifelines button:disabled { opacity: .38; cursor: not-allowed; text-decoration: line-through; }
+
+    .question-card {
+      min-height: 190px;
+      padding: clamp(24px, 4vw, 44px);
+      display: grid;
+      align-content: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, rgba(24, 49, 128, .78), rgba(6, 14, 49, .9));
+      box-shadow: inset 0 0 50px rgba(57, 97, 202, .08);
+      text-align: center;
+    }
+    .question-en { margin: 0; color: #fff9e7; font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.35rem, 3vw, 2.25rem); font-weight: 700; line-height: 1.32; text-wrap: balance; }
+    .question-vi { margin: 15px auto 0; max-width: 860px; color: #bdc9e7; font-size: clamp(.95rem, 1.7vw, 1.1rem); line-height: 1.55; }
+
+    .hint-panel {
+      margin-top: 14px;
+      padding: 15px 18px;
+      border-left: 4px solid var(--gold);
+      border-radius: 10px;
+      color: var(--gold-pale);
+      background: rgba(230,185,79,.1);
+      line-height: 1.55;
+    }
+
+    .answers { margin-top: 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+    .answer-button {
+      position: relative;
+      min-width: 0;
+      min-height: 88px;
+      padding: 15px 42px 15px 15px;
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      border: 1px solid rgba(116, 145, 222, .52);
+      border-radius: var(--radius-md);
+      color: var(--text);
+      background: linear-gradient(145deg, rgba(18, 36, 99, .9), rgba(7, 16, 54, .94));
+      text-align: left;
+      overflow-wrap: anywhere;
+      cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease, opacity .16s ease;
+    }
+    .answer-letter { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--gold); border-radius: 50%; color: var(--gold-bright); font-weight: 900; }
+    .answer-button strong { display: block; color: #fff; font-size: .98rem; line-height: 1.35; }
+    .answer-button small { display: block; margin-top: 5px; color: var(--muted); font-size: .82rem; line-height: 1.4; }
+    .answer-button.selected { border-color: var(--gold-bright); box-shadow: 0 0 0 2px rgba(230,185,79,.18); }
+    .answer-button.correct { border-color: #5be3ab; background: linear-gradient(145deg, var(--correct-dark), #103f36); }
+    .answer-button.wrong { border-color: #ff8189; background: linear-gradient(145deg, var(--wrong-dark), #441523); }
+    .answer-button.correct::after { content: "Đúng"; position: absolute; right: 13px; top: 10px; color: #9df3cc; font-size: .68rem; font-weight: 900; text-transform: uppercase; }
+    .answer-button.wrong::after { content: "Sai"; position: absolute; right: 13px; top: 10px; color: #ffbbc0; font-size: .68rem; font-weight: 900; text-transform: uppercase; }
+    .answer-button.hidden-answer { opacity: .08; visibility: hidden; pointer-events: none; }
+    .result-mark { position: absolute; right: 14px; bottom: 10px; font-size: 1.3rem; font-weight: 900; }
+
+    .feedback { margin-top: 18px; padding: 20px; border: 1px solid; border-radius: var(--radius-md); line-height: 1.6; }
+    .feedback.lost { border-color: rgba(239,90,99,.68); background: rgba(142,37,48,.22); }
+    .feedback.won { border-color: rgba(40,182,122,.7); background: rgba(11,104,72,.24); }
+    .feedback-title { margin: 0 0 8px; color: var(--gold-pale); font-size: 1.12rem; font-weight: 900; }
+    .feedback p { max-width: 900px; }
+    .feedback-prize { color: var(--gold-bright); font-weight: 900; }
+    .feedback .primary-button { margin-top: 5px; }
+
+    .ladder { position: sticky; top: 28px; padding: 16px; border-radius: var(--radius-lg); }
+    .ladder::before { content: "BẬC THANG GIẢI THƯỞNG"; display: block; margin: 2px 6px 13px; color: var(--gold); font-size: .69rem; font-weight: 900; letter-spacing: .12em; }
+    .ladder-row { min-height: 33px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-radius: 9px; color: #a9b6dc; font-variant-numeric: tabular-nums; font-size: .84rem; }
+    .ladder-row strong { color: inherit; }
+    .ladder-row.safe { color: var(--gold-bright); }
+    .ladder-row.completed { color: #7ae0b4; }
+    .ladder-row.current { color: #171103; background: linear-gradient(135deg, #f9dc82, #cf961e); box-shadow: 0 5px 18px rgba(207,150,30,.3); font-weight: 950; }
+
+    @media (hover: hover) {
+      .primary-button:hover { transform: translateY(-2px); filter: brightness(1.06); }
+      .lifelines button:not(:disabled):hover,
+      #ladder-toggle:hover { border-color: var(--gold-bright); background: rgba(37, 69, 161, .78); transform: translateY(-1px); }
+      .answer-button:not(:disabled):hover { transform: translateY(-2px); border-color: var(--gold); background: linear-gradient(145deg, rgba(31, 59, 145, .96), rgba(9, 21, 70, .96)); }
+    }
+
+    @media (max-width: 980px) {
+      .game-layout { grid-template-columns: minmax(0, 1fr) 244px; }
+      .app-shell { padding: 18px; }
+      .answers { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .app-shell { padding: 10px; }
+      .start-screen { min-height: calc(100vh - 20px); padding: 30px 20px; border-radius: 24px; }
+      .game-screen { min-height: calc(100vh - 20px); }
+      .game-header { position: sticky; top: 0; z-index: 20; min-height: 62px; margin-bottom: 10px; padding: 10px 12px; border-radius: 14px; }
+      .game-header > div:first-child { display: none; }
+      .mobile-status { width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; }
+      .mobile-status span { color: var(--muted); font-size: .78rem; font-weight: 800; }
+      .mobile-status strong { color: var(--gold-bright); text-align: center; font-size: .92rem; }
+      #ladder-toggle { min-height: 42px; padding: 7px 11px; font-size: .78rem; }
+      .game-layout { display: block; }
+      .play-panel { padding: 14px; border-radius: 18px; }
+      .progress-row { font-size: .72rem; }
+      .lifelines { margin: 15px 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+      .lifelines button { min-height: 48px; padding: 8px 6px; border-radius: 13px; font-size: .72rem; line-height: 1.15; }
+      .lifelines button span { display: block; margin: 0 0 3px; font-size: 1rem; }
+      .question-card { min-height: 164px; padding: 24px 16px; border-radius: 17px; }
+      .question-en { font-size: clamp(1.22rem, 6vw, 1.65rem); }
+      .question-vi { font-size: .9rem; }
+      .answers { gap: 9px; }
+      .answer-button { min-height: 72px; padding: 12px 38px 12px 12px; grid-template-columns: 32px minmax(0, 1fr); border-radius: 14px; }
+      .answer-letter { width: 30px; height: 30px; }
+      .answer-button strong { font-size: .91rem; }
+      .answer-button small { font-size: .76rem; }
+      .ladder { display: none; position: fixed; z-index: 40; inset: 72px 10px 10px; overflow-y: auto; background: rgba(4, 10, 34, .98); }
+      .ladder.open { display: block; }
+      .ladder-row { min-height: 38px; }
+      .feedback { padding: 16px; }
+    }
+
+    @media (max-width: 380px) {
+      .lifelines button { font-size: .66rem; }
+      .play-panel { padding: 11px; }
+      .answer-button { padding-left: 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .001ms !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section id="start-screen" class="start-screen" aria-labelledby="game-title">
+      <p class="eyebrow">Australian Citizenship 2026</p>
+      <h1 id="game-title">AI LÀ TRIỆU PHÚ<br><span>GIÁ TRỊ ÚC</span></h1>
+      <p class="start-copy">Chinh phục 15 câu hỏi song ngữ từ ngân hàng đầy đủ 65 nội dung Australian Values.</p>
+      <ul class="start-rules">
+        <li>5 câu dễ · 5 câu trung bình · 5 câu khó</li>
+        <li>Mốc an toàn: câu 5 và câu 10</li>
+        <li>Ba quyền trợ giúp, mỗi quyền dùng một lần</li>
+      </ul>
+      <button id="start-button" class="primary-button" type="button">Bắt đầu chơi</button>
+    </section>
+
+    <section id="game-screen" class="game-screen" hidden aria-label="Màn hình trò chơi">
+      <header class="game-header">
+        <div>
+          <p class="eyebrow">Australian Values Challenge</p>
+          <p class="brand-title">AI LÀ TRIỆU PHÚ</p>
+        </div>
+        <div class="mobile-status" aria-live="polite">
+          <span id="mobile-level">Câu 1/15</span>
+          <strong id="mobile-prize">100.000₫</strong>
+          <button id="ladder-toggle" type="button" aria-controls="ladder" aria-expanded="false">Bậc tiền</button>
+        </div>
+      </header>
+
+      <div class="game-layout">
+        <section class="play-panel" aria-label="Câu hỏi hiện tại">
+          <div class="progress-row">
+            <p id="question-number">Câu hỏi 1 / 15</p>
+            <p id="difficulty-label">Rất dễ</p>
+          </div>
+
+          <div class="lifelines" aria-label="Quyền trợ giúp">
+            <button id="lifeline-fifty" type="button"><span aria-hidden="true">½</span> 50:50</button>
+            <button id="lifeline-hint" type="button"><span aria-hidden="true">✦</span> Hỏi ChatGPT</button>
+            <button id="lifeline-swap" type="button"><span aria-hidden="true">↻</span> Đổi câu hỏi</button>
+          </div>
+
+          <article class="question-card">
+            <p id="question-en" class="question-en"></p>
+            <p id="question-vi" class="question-vi"></p>
+          </article>
+
+          <div id="hint-panel" class="hint-panel" aria-live="polite" hidden></div>
+          <div id="answers" class="answers" role="group" aria-label="Các lựa chọn trả lời"></div>
+
+          <section id="feedback" class="feedback" aria-live="assertive" hidden>
+            <p id="feedback-title" class="feedback-title"></p>
+            <p id="feedback-explanation"></p>
+            <p id="feedback-prize" class="feedback-prize"></p>
+            <button id="restart-button" class="primary-button" type="button" hidden>Chơi lại</button>
+          </section>
+        </section>
+
+        <aside id="ladder" class="ladder" aria-label="Bậc thang phần thưởng"></aside>
+      </div>
+    </section>
+  </main>
+
+  <script type="application/json" id="question-bank">
+  [
+    {
+      "id": 1,
+      "sourceRef": 1,
+      "tier": "easy",
+      "questionEn": "Is any person or group above Australian law?",
+      "questionVi": "Có cá nhân hoặc tổ chức nào đứng trên pháp luật Australia không?",
+      "answers": [
+        {
+          "en": "No. Everyone is equal under the law.",
+          "vi": "Không. Mọi người đều bình đẳng trước pháp luật."
+        },
+        {
+          "en": "Yes, senior officials are.",
+          "vi": "Có, các quan chức cấp cao được đứng trên pháp luật."
+        },
+        {
+          "en": "Only religious leaders are.",
+          "vi": "Chỉ lãnh đạo tôn giáo được đứng trên pháp luật."
+        },
+        {
+          "en": "Only wealthy citizens are.",
+          "vi": "Chỉ công dân giàu có được đứng trên pháp luật."
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Hãy nhớ nguyên tắc rule of law áp dụng như nhau cho mọi người.",
+      "explanation": "Theo rule of law, không cá nhân hay tổ chức nào đứng trên pháp luật; everyone is equal under the law."
+    },
+    {
+      "id": 2,
+      "sourceRef": 2,
+      "tier": "easy",
+      "questionEn": "Who must obey Australian laws?",
+      "questionVi": "Ai phải tuân thủ pháp luật Australia?",
+      "answers": [
+        {
+          "en": "Only Australian citizens",
+          "vi": "Chỉ công dân Australia"
+        },
+        {
+          "en": "Everyone in Australia, regardless of their background or culture.",
+          "vi": "Tất cả mọi người ở Australia, bất kể nguồn gốc hay văn hóa."
+        },
+        {
+          "en": "Only permanent residents",
+          "vi": "Chỉ thường trú nhân"
+        },
+        {
+          "en": "Only people born in Australia",
+          "vi": "Chỉ người sinh tại Australia"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Luật áp dụng theo nơi một người đang sống, không chỉ theo hộ chiếu.",
+      "explanation": "Everyone in Australia phải tuân thủ pháp luật, không phụ thuộc nguồn gốc hay văn hóa."
+    },
+    {
+      "id": 3,
+      "sourceRef": 3,
+      "tier": "medium",
+      "questionEn": "Should people obey the law only when somebody is watching?",
+      "questionVi": "Có phải chỉ cần tuân thủ pháp luật khi có người giám sát không?",
+      "answers": [
+        {
+          "en": "Yes, if no police are nearby",
+          "vi": "Có, nếu không có cảnh sát ở gần"
+        },
+        {
+          "en": "Only when in a public place",
+          "vi": "Chỉ khi ở nơi công cộng"
+        },
+        {
+          "en": "No. People must obey the law at all times.",
+          "vi": "Không. Mọi người phải luôn tuân thủ pháp luật."
+        },
+        {
+          "en": "Only during business hours",
+          "vi": "Chỉ trong giờ làm việc"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Đạo đức pháp quyền không phụ thuộc việc có người quan sát.",
+      "explanation": "Mọi người phải tuân thủ luật at all times, kể cả khi không ai nhìn thấy."
+    },
+    {
+      "id": 4,
+      "sourceRef": 4,
+      "tier": "easy",
+      "questionEn": "What happens when a religious or cultural practice conflicts with Australian law?",
+      "questionVi": "Nếu một tập tục tôn giáo hoặc văn hóa mâu thuẫn với pháp luật Australia thì phải làm gì?",
+      "answers": [
+        {
+          "en": "The cultural practice always prevails",
+          "vi": "Tập tục văn hóa luôn được ưu tiên"
+        },
+        {
+          "en": "Community leaders decide",
+          "vi": "Lãnh đạo cộng đồng quyết định"
+        },
+        {
+          "en": "Either rule may be chosen",
+          "vi": "Có thể tùy chọn một trong hai"
+        },
+        {
+          "en": "Australian law must be followed.",
+          "vi": "Phải tuân theo pháp luật Australia."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Hãy nhớ thứ tự ưu tiên khi hai hệ thống quy tắc xung đột.",
+      "explanation": "Australian law comes first; tập tục tôn giáo hoặc văn hóa không tạo ngoại lệ."
+    },
+    {
+      "id": 5,
+      "sourceRef": 5,
+      "tier": "medium",
+      "questionEn": "Can cultural traditions be used as a reason for breaking Australian law?",
+      "questionVi": "Có thể viện dẫn truyền thống văn hóa để vi phạm pháp luật Australia không?",
+      "answers": [
+        {
+          "en": "No.",
+          "vi": "Không."
+        },
+        {
+          "en": "Yes, whenever a family agrees",
+          "vi": "Có, nếu gia đình đồng ý"
+        },
+        {
+          "en": "Yes, for new arrivals only",
+          "vi": "Có, nhưng chỉ với người mới đến"
+        },
+        {
+          "en": "Only if the tradition is old",
+          "vi": "Chỉ khi truyền thống đã tồn tại lâu đời"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Australia tôn trọng văn hóa trong phạm vi pháp luật.",
+      "explanation": "Cultural traditions cannot justify breaking Australian law."
+    },
+    {
+      "id": 6,
+      "sourceRef": 6,
+      "tier": "easy",
+      "questionEn": "What should a person do when receiving a lawful request from the police?",
+      "questionVi": "Một người phải làm gì khi nhận được yêu cầu hợp pháp từ cảnh sát?",
+      "answers": [
+        {
+          "en": "Ignore it until a lawyer arrives",
+          "vi": "Phớt lờ cho tới khi luật sư đến"
+        },
+        {
+          "en": "Obey the lawful request.",
+          "vi": "Tuân theo yêu cầu hợp pháp đó."
+        },
+        {
+          "en": "Obey only if they agree with it",
+          "vi": "Chỉ tuân theo nếu họ đồng ý"
+        },
+        {
+          "en": "Ask community leaders to decide",
+          "vi": "Nhờ lãnh đạo cộng đồng quyết định"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Từ quyết định trong câu hỏi là lawful.",
+      "explanation": "Mọi người phải obey a lawful request from the police vì cam kết tuân thủ pháp luật."
+    },
+    {
+      "id": 7,
+      "sourceRef": 7,
+      "tier": "easy",
+      "questionEn": "Where does the power of the Australian Government come from?",
+      "questionVi": "Quyền lực của Chính phủ Australia đến từ đâu?",
+      "answers": [
+        {
+          "en": "The armed forces",
+          "vi": "Lực lượng vũ trang"
+        },
+        {
+          "en": "The courts alone",
+          "vi": "Riêng các tòa án"
+        },
+        {
+          "en": "From the Australian people.",
+          "vi": "Từ nhân dân Australia."
+        },
+        {
+          "en": "Foreign governments",
+          "vi": "Các chính phủ nước ngoài"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Hãy nghĩ đến người trao quyền thông qua lá phiếu.",
+      "explanation": "Trong parliamentary democracy, quyền lực chính phủ đến from the Australian people."
+    },
+    {
+      "id": 8,
+      "sourceRef": 8,
+      "tier": "medium",
+      "questionEn": "How do Australian citizens participate in parliamentary democracy?",
+      "questionVi": "Công dân Australia tham gia nền dân chủ nghị viện bằng cách nào?",
+      "answers": [
+        {
+          "en": "They personally write every law",
+          "vi": "Họ trực tiếp viết mọi đạo luật"
+        },
+        {
+          "en": "They appoint judges",
+          "vi": "Họ bổ nhiệm thẩm phán"
+        },
+        {
+          "en": "They choose the monarch",
+          "vi": "Họ lựa chọn quốc vương"
+        },
+        {
+          "en": "They vote for people to represent them in parliament.",
+          "vi": "Họ bầu những người đại diện cho mình trong nghị viện."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Công dân lựa chọn người thay mặt mình trong cơ quan lập pháp.",
+      "explanation": "Công dân vote for representatives in parliament; họ không trực tiếp viết mọi luật."
+    },
+    {
+      "id": 9,
+      "sourceRef": 9,
+      "tier": "easy",
+      "questionEn": "Is voting compulsory for eligible Australian citizens?",
+      "questionVi": "Việc bỏ phiếu có bắt buộc đối với công dân Australia đủ điều kiện không?",
+      "answers": [
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "No, it is always optional",
+          "vi": "Không, việc bỏ phiếu luôn tùy ý"
+        },
+        {
+          "en": "Only in local elections",
+          "vi": "Chỉ trong bầu cử địa phương"
+        },
+        {
+          "en": "Only for government employees",
+          "vi": "Chỉ với nhân viên chính phủ"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Việc tham gia bầu cử được coi là trách nhiệm quan trọng của công dân.",
+      "explanation": "Voting is compulsory đối với công dân Australia đủ điều kiện."
+    },
+    {
+      "id": 10,
+      "sourceRef": 10,
+      "tier": "easy",
+      "questionEn": "Can Australians peacefully protest against government decisions?",
+      "questionVi": "Người dân Australia có thể biểu tình ôn hòa phản đối quyết định của chính phủ không?",
+      "answers": [
+        {
+          "en": "No, government decisions cannot be criticised",
+          "vi": "Không, không được phê bình quyết định chính phủ"
+        },
+        {
+          "en": "Yes, provided the protest is peaceful and lawful.",
+          "vi": "Có, với điều kiện cuộc biểu tình ôn hòa và đúng pháp luật."
+        },
+        {
+          "en": "Only with a political party membership",
+          "vi": "Chỉ khi là thành viên chính đảng"
+        },
+        {
+          "en": "Yes, including the use of violence",
+          "vi": "Có, kể cả sử dụng bạo lực"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Hai điều kiện đi cùng quyền biểu tình là peaceful và lawful.",
+      "explanation": "Peaceful, lawful protest là một phần thiết yếu của dân chủ; bạo lực không được chấp nhận."
+    },
+    {
+      "id": 11,
+      "sourceRef": 11,
+      "tier": "easy",
+      "questionEn": "Can people in Australia freely express their opinions?",
+      "questionVi": "Người dân ở Australia có được tự do bày tỏ ý kiến không?",
+      "answers": [
+        {
+          "en": "Only opinions supporting the government",
+          "vi": "Chỉ ý kiến ủng hộ chính phủ"
+        },
+        {
+          "en": "Only in private",
+          "vi": "Chỉ ở nơi riêng tư"
+        },
+        {
+          "en": "Yes, as long as they remain within the law.",
+          "vi": "Có, miễn là việc bày tỏ ý kiến nằm trong giới hạn pháp luật."
+        },
+        {
+          "en": "No opinions may be expressed publicly",
+          "vi": "Không được bày tỏ ý kiến công khai"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Tự do biểu đạt luôn đi cùng một giới hạn pháp lý.",
+      "explanation": "Freedom of speech được bảo vệ as long as it is within the law."
+    },
+    {
+      "id": 12,
+      "sourceRef": 12,
+      "tier": "medium",
+      "questionEn": "Can people lawfully criticise the Australian Government?",
+      "questionVi": "Người dân có thể phê bình Chính phủ Australia một cách hợp pháp không?",
+      "answers": [
+        {
+          "en": "No, criticism is forbidden",
+          "vi": "Không, phê bình bị cấm"
+        },
+        {
+          "en": "Only elected politicians may do so",
+          "vi": "Chỉ chính trị gia được bầu mới có thể"
+        },
+        {
+          "en": "Only newspapers may do so",
+          "vi": "Chỉ báo chí mới có thể"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Phân biệt phê bình hợp pháp với kích động bạo lực.",
+      "explanation": "Người dân có thể lawfully criticise the government và biểu tình ôn hòa."
+    },
+    {
+      "id": 13,
+      "sourceRef": 13,
+      "tier": "easy",
+      "questionEn": "Is it acceptable to promote violence against another person or group?",
+      "questionVi": "Có được phép cổ xúy bạo lực đối với một cá nhân hoặc nhóm người không?",
+      "answers": [
+        {
+          "en": "No. It is against Australian values and the law.",
+          "vi": "Không. Việc đó trái với giá trị và pháp luật Australia."
+        },
+        {
+          "en": "Yes, during political debate",
+          "vi": "Có, trong tranh luận chính trị"
+        },
+        {
+          "en": "Only on social media",
+          "vi": "Chỉ trên mạng xã hội"
+        },
+        {
+          "en": "Yes, if the speaker is angry",
+          "vi": "Có, nếu người nói tức giận"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Freedom of speech không bảo vệ lời kêu gọi gây hại cho người khác.",
+      "explanation": "Promoting violence trái với Australian values và pháp luật."
+    },
+    {
+      "id": 14,
+      "sourceRef": 14,
+      "tier": "medium",
+      "questionEn": "Must people respect the lawful freedom of speech of others, even when they disagree?",
+      "questionVi": "Mọi người có phải tôn trọng quyền tự do ngôn luận hợp pháp của người khác dù không đồng ý không?",
+      "answers": [
+        {
+          "en": "No, disagreement removes that freedom",
+          "vi": "Không, bất đồng làm mất quyền đó"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "Only during elections",
+          "vi": "Chỉ trong thời gian bầu cử"
+        },
+        {
+          "en": "Only if the opinion is popular",
+          "vi": "Chỉ khi quan điểm được nhiều người ủng hộ"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Respect không có nghĩa là agree.",
+      "explanation": "Mọi người phải tôn trọng lawful freedom of expression của người khác dù bất đồng."
+    },
+    {
+      "id": 15,
+      "sourceRef": 15,
+      "tier": "medium",
+      "questionEn": "Are newspapers, television and radio free to express opinions?",
+      "questionVi": "Báo chí, truyền hình và phát thanh có được tự do bày tỏ quan điểm không?",
+      "answers": [
+        {
+          "en": "No, media may only report official statements",
+          "vi": "Không, truyền thông chỉ được đăng tuyên bố chính thức"
+        },
+        {
+          "en": "Only public broadcasters are free",
+          "vi": "Chỉ đài công mới được tự do"
+        },
+        {
+          "en": "Yes, within Australian law.",
+          "vi": "Có, trong khuôn khổ pháp luật Australia."
+        },
+        {
+          "en": "Yes, with no legal limits",
+          "vi": "Có, không chịu bất kỳ giới hạn pháp lý nào"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Quyền của truyền thông có cùng giới hạn với freedom of speech.",
+      "explanation": "Media outlets có quyền biểu đạt quan điểm within Australian law."
+    },
+    {
+      "id": 16,
+      "sourceRef": 16,
+      "tier": "easy",
+      "questionEn": "Can a person voluntarily join or leave a legal organisation?",
+      "questionVi": "Một người có thể tự nguyện tham gia hoặc rời khỏi một tổ chức hợp pháp không?",
+      "answers": [
+        {
+          "en": "They may join but never leave",
+          "vi": "Có thể tham gia nhưng không được rời đi"
+        },
+        {
+          "en": "Only citizens may leave",
+          "vi": "Chỉ công dân mới được rời đi"
+        },
+        {
+          "en": "They need government permission",
+          "vi": "Họ cần chính phủ cho phép"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Freedom of association bao gồm cả hai chiều tham gia và rời đi.",
+      "explanation": "Mọi người có quyền voluntarily join or leave any legal group."
+    },
+    {
+      "id": 17,
+      "sourceRef": 17,
+      "tier": "medium",
+      "questionEn": "Can Australians join a political party or trade union?",
+      "questionVi": "Người Australia có thể tham gia một chính đảng hoặc công đoàn không?",
+      "answers": [
+        {
+          "en": "Yes, provided the organisation is legal.",
+          "vi": "Có, với điều kiện đó là tổ chức hợp pháp."
+        },
+        {
+          "en": "No, both are prohibited",
+          "vi": "Không, cả hai đều bị cấm"
+        },
+        {
+          "en": "Only government employees may join",
+          "vi": "Chỉ nhân viên chính phủ được tham gia"
+        },
+        {
+          "en": "Only with police approval",
+          "vi": "Chỉ khi có cảnh sát phê duyệt"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Đây là hai ví dụ điển hình của freedom of association.",
+      "explanation": "Người Australia có thể tham gia political parties và trade unions hợp pháp."
+    },
+    {
+      "id": 18,
+      "sourceRef": 18,
+      "tier": "medium",
+      "questionEn": "Can people join religious, cultural or social groups?",
+      "questionVi": "Mọi người có thể tham gia các nhóm tôn giáo, văn hóa hoặc xã hội không?",
+      "answers": [
+        {
+          "en": "No, private groups are banned",
+          "vi": "Không, các nhóm tư nhân bị cấm"
+        },
+        {
+          "en": "Yes, as long as the group and its activities are lawful.",
+          "vi": "Có, miễn là nhóm và hoạt động của nhóm hợp pháp."
+        },
+        {
+          "en": "Only groups funded by government",
+          "vi": "Chỉ nhóm được chính phủ tài trợ"
+        },
+        {
+          "en": "Only one group in a lifetime",
+          "vi": "Chỉ được tham gia một nhóm trong đời"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Quyền tham gia phụ thuộc tính hợp pháp của nhóm và hoạt động.",
+      "explanation": "Religious, cultural and social groups được phép khi lawful."
+    },
+    {
+      "id": 19,
+      "sourceRef": 19,
+      "tier": "medium",
+      "questionEn": "Can a person be forced to remain in an organisation?",
+      "questionVi": "Một người có thể bị ép buộc phải tiếp tục ở trong một tổ chức không?",
+      "answers": [
+        {
+          "en": "Yes, if they once joined",
+          "vi": "Có, nếu trước đây họ đã tham gia"
+        },
+        {
+          "en": "Only cultural groups may force members",
+          "vi": "Chỉ nhóm văn hóa được ép thành viên"
+        },
+        {
+          "en": "No. People are free to leave voluntarily.",
+          "vi": "Không. Mọi người được tự do rời khỏi tổ chức."
+        },
+        {
+          "en": "Yes, until a leader approves",
+          "vi": "Có, cho đến khi lãnh đạo đồng ý"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Quyền lập hội cũng bảo vệ lựa chọn không tiếp tục tham gia.",
+      "explanation": "Freedom of association bao gồm quyền leave voluntarily."
+    },
+    {
+      "id": 20,
+      "sourceRef": 20,
+      "tier": "easy",
+      "questionEn": "Does Australia have an official national religion?",
+      "questionVi": "Australia có quốc giáo chính thức không?",
+      "answers": [
+        {
+          "en": "Yes, Christianity",
+          "vi": "Có, Cơ Đốc giáo"
+        },
+        {
+          "en": "Yes, the majority religion",
+          "vi": "Có, tôn giáo của đa số"
+        },
+        {
+          "en": "Each state has one",
+          "vi": "Mỗi tiểu bang có một quốc giáo"
+        },
+        {
+          "en": "No. Australia has no official national religion.",
+          "vi": "Không. Australia không có quốc giáo chính thức."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Đừng nhầm national language với national religion.",
+      "explanation": "Australia has no official national religion."
+    },
+    {
+      "id": 21,
+      "sourceRef": 21,
+      "tier": "easy",
+      "questionEn": "Can people follow any religion they choose?",
+      "questionVi": "Mọi người có thể theo bất kỳ tôn giáo nào họ lựa chọn không?",
+      "answers": [
+        {
+          "en": "Yes, provided their religious practices do not break Australian law.",
+          "vi": "Có, miễn là việc thực hành tôn giáo không vi phạm pháp luật Australia."
+        },
+        {
+          "en": "No, only approved religions are allowed",
+          "vi": "Không, chỉ tôn giáo được phê duyệt mới được phép"
+        },
+        {
+          "en": "Yes, even if practices break the law",
+          "vi": "Có, kể cả khi việc thực hành vi phạm luật"
+        },
+        {
+          "en": "Only citizens may choose",
+          "vi": "Chỉ công dân mới được lựa chọn"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Tự do lựa chọn đi kèm yêu cầu hoạt động hợp pháp.",
+      "explanation": "Freedom of religion được bảo vệ, nhưng religious practices must not break Australian law."
+    },
+    {
+      "id": 22,
+      "sourceRef": 22,
+      "tier": "easy",
+      "questionEn": "Which law must be followed when religious law differs from Australian law?",
+      "questionVi": "Khi giáo luật khác với pháp luật Australia thì phải tuân theo luật nào?",
+      "answers": [
+        {
+          "en": "Religious law",
+          "vi": "Giáo luật"
+        },
+        {
+          "en": "Australian law.",
+          "vi": "Pháp luật Australia."
+        },
+        {
+          "en": "Whichever law is older",
+          "vi": "Luật nào lâu đời hơn"
+        },
+        {
+          "en": "The family’s preferred law",
+          "vi": "Luật mà gia đình lựa chọn"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Một hệ thống luật áp dụng chung cho tất cả mọi người trong nước.",
+      "explanation": "Khi có khác biệt, Australian law must be followed."
+    },
+    {
+      "id": 23,
+      "sourceRef": 23,
+      "tier": "medium",
+      "questionEn": "Is religious intolerance acceptable in Australia?",
+      "questionVi": "Sự không khoan dung hoặc kỳ thị tôn giáo có được chấp nhận tại Australia không?",
+      "answers": [
+        {
+          "en": "Yes, against minority religions",
+          "vi": "Có, với tôn giáo thiểu số"
+        },
+        {
+          "en": "Only during public debate",
+          "vi": "Chỉ trong tranh luận công khai"
+        },
+        {
+          "en": "No.",
+          "vi": "Không."
+        },
+        {
+          "en": "Yes, if culturally traditional",
+          "vi": "Có, nếu đó là truyền thống văn hóa"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Freedom of religion cần đi cùng tolerance.",
+      "explanation": "Religious intolerance is not acceptable in Australian society."
+    },
+    {
+      "id": 24,
+      "sourceRef": 24,
+      "tier": "medium",
+      "questionEn": "Is polygamy legal in Australia?",
+      "questionVi": "Chế độ đa hôn — kết hôn với nhiều hơn một người cùng lúc — có hợp pháp ở Australia không?",
+      "answers": [
+        {
+          "en": "Yes, for religious reasons",
+          "vi": "Có, vì lý do tôn giáo"
+        },
+        {
+          "en": "Yes, with family consent",
+          "vi": "Có, nếu gia đình đồng ý"
+        },
+        {
+          "en": "Only for overseas marriages",
+          "vi": "Chỉ với hôn nhân ở nước ngoài"
+        },
+        {
+          "en": "No.",
+          "vi": "Không."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Hãy nhớ quy tắc one legal spouse at a time.",
+      "explanation": "Polygamy—kết hôn với nhiều hơn một người cùng lúc—không hợp pháp tại Australia."
+    },
+    {
+      "id": 25,
+      "sourceRef": 25,
+      "tier": "medium",
+      "questionEn": "Is forced marriage legal in Australia?",
+      "questionVi": "Hôn nhân cưỡng ép có hợp pháp tại Australia không?",
+      "answers": [
+        {
+          "en": "No. It is a serious criminal offence.",
+          "vi": "Không. Đây là hành vi phạm tội nghiêm trọng."
+        },
+        {
+          "en": "Yes, when parents agree",
+          "vi": "Có, khi cha mẹ đồng ý"
+        },
+        {
+          "en": "Only for people under 21",
+          "vi": "Chỉ với người dưới 21 tuổi"
+        },
+        {
+          "en": "Yes, if culturally accepted",
+          "vi": "Có, nếu văn hóa chấp nhận"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Một cuộc hôn nhân hợp pháp cần sự lựa chọn tự do.",
+      "explanation": "Forced marriage là serious criminal offence; gia đình hay văn hóa không tạo ngoại lệ."
+    },
+    {
+      "id": 26,
+      "sourceRef": 26,
+      "tier": "easy",
+      "questionEn": "Are people equal under Australian law regardless of gender, race or religion?",
+      "questionVi": "Mọi người có bình đẳng trước pháp luật Australia bất kể giới tính, chủng tộc hay tôn giáo không?",
+      "answers": [
+        {
+          "en": "Only citizens are equal",
+          "vi": "Chỉ công dân mới bình đẳng"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "Only people of the same religion are equal",
+          "vi": "Chỉ người cùng tôn giáo mới bình đẳng"
+        },
+        {
+          "en": "Equality depends on income",
+          "vi": "Sự bình đẳng phụ thuộc thu nhập"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Same law, same protection.",
+      "explanation": "Australian law values equality regardless of gender, race or religion."
+    },
+    {
+      "id": 27,
+      "sourceRef": 27,
+      "tier": "hard",
+      "questionEn": "Does equality also apply regardless of age, disability, sexual orientation or ethnic origin?",
+      "questionVi": "Sự bình đẳng có áp dụng bất kể tuổi tác, khuyết tật, xu hướng tính dục hay nguồn gốc dân tộc không?",
+      "answers": [
+        {
+          "en": "Only age and disability are protected",
+          "vi": "Chỉ tuổi tác và khuyết tật được bảo vệ"
+        },
+        {
+          "en": "Only ethnic origin is protected",
+          "vi": "Chỉ nguồn gốc dân tộc được bảo vệ"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "No, none of these are included",
+          "vi": "Không, không đặc điểm nào được bao gồm"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Danh sách bình đẳng rộng hơn giới tính, chủng tộc và tôn giáo.",
+      "explanation": "Equality under law bao gồm age, disability, sexual orientation và national or ethnic origin."
+    },
+    {
+      "id": 28,
+      "sourceRef": 28,
+      "tier": "medium",
+      "questionEn": "Can two men or two women legally marry each other in Australia?",
+      "questionVi": "Hai người nam hoặc hai người nữ có thể kết hôn hợp pháp với nhau tại Australia không?",
+      "answers": [
+        {
+          "en": "No",
+          "vi": "Không"
+        },
+        {
+          "en": "Only in some states",
+          "vi": "Chỉ tại một số tiểu bang"
+        },
+        {
+          "en": "Only with special government permission",
+          "vi": "Chỉ khi có phép đặc biệt của chính phủ"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Luật cho phép hôn nhân giữa two people, kể cả same-sex couples.",
+      "explanation": "Australian law permits marriage between two men or two women."
+    },
+    {
+      "id": 29,
+      "sourceRef": 29,
+      "tier": "easy",
+      "questionEn": "Do men and women have equal rights in Australia?",
+      "questionVi": "Nam giới và nữ giới có quyền bình đẳng tại Australia không?",
+      "answers": [
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "No, men have more legal rights",
+          "vi": "Không, nam giới có nhiều quyền hơn"
+        },
+        {
+          "en": "Only at work",
+          "vi": "Chỉ tại nơi làm việc"
+        },
+        {
+          "en": "Only after marriage",
+          "vi": "Chỉ sau khi kết hôn"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Equal rights đi cùng equal opportunity.",
+      "explanation": "Men and women have equal rights and should receive equality of opportunity."
+    },
+    {
+      "id": 30,
+      "sourceRef": 30,
+      "tier": "medium",
+      "questionEn": "Can a woman be selected for a job ahead of a man if she has better qualifications and skills?",
+      "questionVi": "Một phụ nữ có thể được tuyển thay vì một nam giới nếu cô ấy có trình độ và kỹ năng tốt hơn không?",
+      "answers": [
+        {
+          "en": "No, a man must always be selected",
+          "vi": "Không, luôn phải chọn nam giới"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "Only for part-time work",
+          "vi": "Chỉ với công việc bán thời gian"
+        },
+        {
+          "en": "Only if no man applies",
+          "vi": "Chỉ khi không có nam giới ứng tuyển"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Việc tuyển dụng nên dựa trên merit.",
+      "explanation": "Người có qualifications and skills tốt hơn có thể được chọn, bất kể giới tính."
+    },
+    {
+      "id": 31,
+      "sourceRef": 31,
+      "tier": "hard",
+      "questionEn": "Should an employer select someone merely because of gender, wealth, race or family background?",
+      "questionVi": "Chủ lao động có nên tuyển một người chỉ vì giới tính, sự giàu có, chủng tộc hoặc gia thế không?",
+      "answers": [
+        {
+          "en": "Yes, wealth proves ability",
+          "vi": "Có, giàu có chứng minh năng lực"
+        },
+        {
+          "en": "Yes, family background comes first",
+          "vi": "Có, gia thế phải được ưu tiên"
+        },
+        {
+          "en": "No. Selection should be based on skills and experience.",
+          "vi": "Không. Việc lựa chọn phải dựa trên kỹ năng và kinh nghiệm."
+        },
+        {
+          "en": "Only race should be considered",
+          "vi": "Chỉ nên xem xét chủng tộc"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Hãy tìm tiêu chí liên quan trực tiếp đến khả năng làm việc.",
+      "explanation": "Employment decisions should be based on skills and experience, không dựa trên giới, tiền bạc, chủng tộc hay gia thế."
+    },
+    {
+      "id": 32,
+      "sourceRef": 32,
+      "tier": "medium",
+      "questionEn": "Do people have the right to make their own decisions about marriage and religion?",
+      "questionVi": "Mỗi người có quyền tự quyết định về hôn nhân và tôn giáo của mình không?",
+      "answers": [
+        {
+          "en": "Only men have that right",
+          "vi": "Chỉ nam giới có quyền đó"
+        },
+        {
+          "en": "Families must decide",
+          "vi": "Gia đình phải quyết định"
+        },
+        {
+          "en": "Religious leaders must decide",
+          "vi": "Lãnh đạo tôn giáo phải quyết định"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Marriage và religion đều là personal choices.",
+      "explanation": "Cả nam và nữ có quyền make independent choices about marriage and religion."
+    },
+    {
+      "id": 33,
+      "sourceRef": 33,
+      "tier": "hard",
+      "questionEn": "Can either a husband or wife apply for divorce if the other spouse does not want it?",
+      "questionVi": "Người chồng hoặc người vợ có thể xin ly hôn dù người còn lại không muốn không?",
+      "answers": [
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "No, both must always agree",
+          "vi": "Không, cả hai luôn phải đồng ý"
+        },
+        {
+          "en": "Only the husband may apply",
+          "vi": "Chỉ người chồng được nộp đơn"
+        },
+        {
+          "en": "Only the wife may apply",
+          "vi": "Chỉ người vợ được nộp đơn"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Không bên nào có thể ép bên kia tiếp tục hôn nhân.",
+      "explanation": "Either spouse may apply to the courts for divorce even when the other wishes to continue the marriage."
+    },
+    {
+      "id": 34,
+      "sourceRef": 34,
+      "tier": "easy",
+      "questionEn": "Is physical violence against a spouse or partner acceptable?",
+      "questionVi": "Bạo lực thể chất đối với vợ, chồng hoặc bạn đời có được chấp nhận không?",
+      "answers": [
+        {
+          "en": "Yes, during a private dispute",
+          "vi": "Có, trong tranh chấp riêng tư"
+        },
+        {
+          "en": "No. It is a criminal offence.",
+          "vi": "Không. Đây là hành vi phạm tội."
+        },
+        {
+          "en": "Only if no injury occurs",
+          "vi": "Chỉ khi không gây thương tích"
+        },
+        {
+          "en": "Yes, if culturally accepted",
+          "vi": "Có, nếu văn hóa chấp nhận"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Chuyện xảy ra trong gia đình vẫn chịu pháp luật.",
+      "explanation": "Physical violence against a spouse or partner is never acceptable and is a criminal offence."
+    },
+    {
+      "id": 35,
+      "sourceRef": 35,
+      "tier": "medium",
+      "questionEn": "What does “a fair go” mean?",
+      "questionVi": "“A fair go” có nghĩa là gì?",
+      "answers": [
+        {
+          "en": "Everyone receives the same income",
+          "vi": "Mọi người nhận thu nhập như nhau"
+        },
+        {
+          "en": "Everyone is guaranteed the same result",
+          "vi": "Mọi người được bảo đảm kết quả giống nhau"
+        },
+        {
+          "en": "Everyone should have an equal opportunity to succeed through their skills, effort and talents.",
+          "vi": "Mọi người đều nên có cơ hội bình đẳng để thành công bằng kỹ năng, nỗ lực và tài năng của mình."
+        },
+        {
+          "en": "Only citizens receive opportunities",
+          "vi": "Chỉ công dân nhận được cơ hội"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Fair go nói về opportunity, không phải guaranteed outcome.",
+      "explanation": "A fair go là equal opportunity dựa trên hard work and talents, không phải kết quả bắt buộc giống nhau."
+    },
+    {
+      "id": 36,
+      "sourceRef": 36,
+      "tier": "hard",
+      "questionEn": "What should determine whether a person gets a job?",
+      "questionVi": "Điều gì nên quyết định một người có được tuyển dụng hay không?",
+      "answers": [
+        {
+          "en": "Their family connections",
+          "vi": "Quan hệ gia đình"
+        },
+        {
+          "en": "Their wealth",
+          "vi": "Sự giàu có"
+        },
+        {
+          "en": "Their gender",
+          "vi": "Giới tính"
+        },
+        {
+          "en": "Their skills, qualifications and experience.",
+          "vi": "Kỹ năng, trình độ và kinh nghiệm của họ."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Ba tiêu chí đúng đều liên quan tới năng lực thực hiện công việc.",
+      "explanation": "Employment selection should depend on skills, qualifications and experience."
+    },
+    {
+      "id": 37,
+      "sourceRef": 37,
+      "tier": "hard",
+      "questionEn": "Should social class, wealth, ethnicity or gender limit what a person can achieve?",
+      "questionVi": "Giai cấp xã hội, sự giàu có, sắc tộc hoặc giới tính có nên giới hạn thành tựu của một người không?",
+      "answers": [
+        {
+          "en": "No.",
+          "vi": "Không."
+        },
+        {
+          "en": "Yes, social class should decide",
+          "vi": "Có, giai cấp xã hội nên quyết định"
+        },
+        {
+          "en": "Only wealth should decide",
+          "vi": "Chỉ sự giàu có nên quyết định"
+        },
+        {
+          "en": "Only gender should decide",
+          "vi": "Chỉ giới tính nên quyết định"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Thành tựu nên là kết quả của effort và talent.",
+      "explanation": "Class distinction không nên giới hạn con người; achievements nên đến từ hard work and talents."
+    },
+    {
+      "id": 38,
+      "sourceRef": 38,
+      "tier": "medium",
+      "questionEn": "What does mutual respect and tolerance mean?",
+      "questionVi": "Tôn trọng lẫn nhau và khoan dung có nghĩa là gì?",
+      "answers": [
+        {
+          "en": "Silencing every different opinion",
+          "vi": "Bịt tiếng mọi quan điểm khác biệt"
+        },
+        {
+          "en": "Listening to others and respecting their views and choices, even when they differ from your own.",
+          "vi": "Lắng nghe và tôn trọng quan điểm, lựa chọn của người khác dù chúng khác với quan điểm của mình."
+        },
+        {
+          "en": "Agreeing with every opinion",
+          "vi": "Đồng ý với mọi quan điểm"
+        },
+        {
+          "en": "Avoiding all discussion",
+          "vi": "Tránh mọi cuộc thảo luận"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Tôn trọng sự khác biệt không đòi hỏi phải đồng ý.",
+      "explanation": "Mutual respect and tolerance nghĩa là listen and respect dù quan điểm khác nhau."
+    },
+    {
+      "id": 39,
+      "sourceRef": 39,
+      "tier": "medium",
+      "questionEn": "Must Australians agree with every opinion expressed by another person?",
+      "questionVi": "Người Australia có bắt buộc phải đồng ý với mọi quan điểm của người khác không?",
+      "answers": [
+        {
+          "en": "Yes, disagreement is unlawful",
+          "vi": "Có, bất đồng là bất hợp pháp"
+        },
+        {
+          "en": "Only at work",
+          "vi": "Chỉ tại nơi làm việc"
+        },
+        {
+          "en": "No. They should respect lawful differences of opinion.",
+          "vi": "Không. Họ cần tôn trọng những khác biệt quan điểm hợp pháp."
+        },
+        {
+          "en": "Only elected people may disagree",
+          "vi": "Chỉ người được bầu mới được bất đồng"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Phân biệt agree với respect.",
+      "explanation": "Không cần đồng ý với mọi quan điểm, nhưng phải respect lawful differences."
+    },
+    {
+      "id": 40,
+      "sourceRef": 40,
+      "tier": "hard",
+      "questionEn": "Is violence an acceptable way to resolve disagreement?",
+      "questionVi": "Bạo lực có phải là cách được chấp nhận để giải quyết bất đồng không?",
+      "answers": [
+        {
+          "en": "Yes, for political disputes",
+          "vi": "Có, với tranh chấp chính trị"
+        },
+        {
+          "en": "Only verbal violence is acceptable",
+          "vi": "Chỉ bạo lực lời nói được chấp nhận"
+        },
+        {
+          "en": "Yes, if both sides are angry",
+          "vi": "Có, nếu cả hai bên tức giận"
+        },
+        {
+          "en": "No.",
+          "vi": "Không."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Hãy chọn phương án phù hợp dignity và law.",
+      "explanation": "Violence is not acceptable; bất đồng phải được xử lý không bằng bạo lực."
+    },
+    {
+      "id": 41,
+      "sourceRef": 41,
+      "tier": "easy",
+      "questionEn": "Does racism have a place in Australia?",
+      "questionVi": "Chủ nghĩa phân biệt chủng tộc có được chấp nhận trong xã hội Australia không?",
+      "answers": [
+        {
+          "en": "No. Racism has no place in Australia.",
+          "vi": "Không. Phân biệt chủng tộc không có chỗ trong xã hội Australia."
+        },
+        {
+          "en": "Yes, at sporting events",
+          "vi": "Có, tại sự kiện thể thao"
+        },
+        {
+          "en": "Only online",
+          "vi": "Chỉ trên mạng"
+        },
+        {
+          "en": "Yes, in private groups",
+          "vi": "Có, trong nhóm riêng tư"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Hãy nhớ nguyên cụm trong tài liệu chính thức.",
+      "explanation": "Racism has no place in Australia."
+    },
+    {
+      "id": 42,
+      "sourceRef": 42,
+      "tier": "hard",
+      "questionEn": "Is posting racially abusive material online acceptable?",
+      "questionVi": "Đăng nội dung xúc phạm chủng tộc trên mạng có được chấp nhận không?",
+      "answers": [
+        {
+          "en": "Yes, because the internet is private",
+          "vi": "Có, vì internet là nơi riêng tư"
+        },
+        {
+          "en": "No. It is contrary to Australian values and may be illegal.",
+          "vi": "Không. Việc đó trái với giá trị Australia và có thể vi phạm pháp luật."
+        },
+        {
+          "en": "Only anonymous posts are allowed",
+          "vi": "Chỉ bài đăng ẩn danh được phép"
+        },
+        {
+          "en": "Yes, if posted overseas",
+          "vi": "Có, nếu đăng từ nước ngoài"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Hành vi online vẫn chịu chuẩn mực và pháp luật.",
+      "explanation": "Sharing racially offensive material online không được chấp nhận và có thể vi phạm pháp luật."
+    },
+    {
+      "id": 43,
+      "sourceRef": 43,
+      "tier": "hard",
+      "questionEn": "Is making racist comments in a public place or at a sporting event acceptable?",
+      "questionVi": "Đưa ra bình luận phân biệt chủng tộc tại nơi công cộng hoặc sự kiện thể thao có được chấp nhận không?",
+      "answers": [
+        {
+          "en": "Yes, sporting events are exempt",
+          "vi": "Có, sự kiện thể thao được miễn trừ"
+        },
+        {
+          "en": "Only if said quietly",
+          "vi": "Chỉ khi nói nhỏ"
+        },
+        {
+          "en": "No.",
+          "vi": "Không."
+        },
+        {
+          "en": "Yes, if the crowd agrees",
+          "vi": "Có, nếu đám đông đồng ý"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Địa điểm đông người không tạo ngoại lệ cho racist abuse.",
+      "explanation": "Racially abusive comments ở nơi công cộng hoặc sporting events không được chấp nhận."
+    },
+    {
+      "id": 44,
+      "sourceRef": 44,
+      "tier": "hard",
+      "questionEn": "Is the age of sexual consent the same throughout Australia?",
+      "questionVi": "Tuổi đồng thuận quan hệ tình dục có giống nhau trên toàn Australia không?",
+      "answers": [
+        {
+          "en": "Yes, it is always 15",
+          "vi": "Có, luôn là 15"
+        },
+        {
+          "en": "Yes, it is always 18",
+          "vi": "Có, luôn là 18"
+        },
+        {
+          "en": "There is no legal age",
+          "vi": "Không có độ tuổi theo luật"
+        },
+        {
+          "en": "No. It is 16 or 17, depending on the state or territory.",
+          "vi": "Không. Tuổi đồng thuận là 16 hoặc 17, tùy tiểu bang hoặc vùng lãnh thổ."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Hãy nhớ cặp số 16–17 và sự khác nhau giữa các jurisdiction.",
+      "explanation": "The age of consent is 16 or 17 depending on the state or territory."
+    },
+    {
+      "id": 45,
+      "sourceRef": 45,
+      "tier": "hard",
+      "questionEn": "Can a 20-year-old legally have sexual relations with a 15-year-old?",
+      "questionVi": "Một người 20 tuổi có thể quan hệ tình dục hợp pháp với người 15 tuổi không?",
+      "answers": [
+        {
+          "en": "No. It is illegal in every Australian state and territory.",
+          "vi": "Không. Việc đó bất hợp pháp tại mọi tiểu bang và vùng lãnh thổ Australia."
+        },
+        {
+          "en": "Yes, in states where consent is 16",
+          "vi": "Có, tại tiểu bang có tuổi đồng thuận là 16"
+        },
+        {
+          "en": "Yes, with parental permission",
+          "vi": "Có, nếu cha mẹ cho phép"
+        },
+        {
+          "en": "Only while travelling",
+          "vi": "Chỉ khi đang đi du lịch"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "15 thấp hơn cả hai mốc tuổi đồng thuận được nêu trong tài liệu.",
+      "explanation": "A 15-year-old is below 16 and 17, nên hành vi này bất hợp pháp trên toàn Australia."
+    },
+    {
+      "id": 46,
+      "sourceRef": 46,
+      "tier": "medium",
+      "questionEn": "What is expected of people living in Australia?",
+      "questionVi": "Những người sống tại Australia được kỳ vọng điều gì?",
+      "answers": [
+        {
+          "en": "Avoid all community activities",
+          "vi": "Tránh mọi hoạt động cộng đồng"
+        },
+        {
+          "en": "They should participate in society and contribute to the community.",
+          "vi": "Họ nên tham gia xã hội và đóng góp cho cộng đồng."
+        },
+        {
+          "en": "Contribute only if they are citizens",
+          "vi": "Chỉ đóng góp nếu là công dân"
+        },
+        {
+          "en": "Rely entirely on other people",
+          "vi": "Hoàn toàn dựa vào người khác"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Hai động từ chính là participate và contribute.",
+      "explanation": "Mọi người được kỳ vọng participate in society and make a contribution to the community."
+    },
+    {
+      "id": 47,
+      "sourceRef": 47,
+      "tier": "medium",
+      "questionEn": "Should people try to support themselves and their families when they are able to do so?",
+      "questionVi": "Khi có khả năng, mọi người có nên cố gắng tự nuôi sống bản thân và gia đình không?",
+      "answers": [
+        {
+          "en": "No, the government must always do so",
+          "vi": "Không, chính phủ luôn phải làm việc đó"
+        },
+        {
+          "en": "Only wealthy people should",
+          "vi": "Chỉ người giàu mới nên làm"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "Only people without children should",
+          "vi": "Chỉ người không có con mới nên làm"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Cụm giới hạn quan trọng là when they are able to do so.",
+      "explanation": "Mọi người có trách nhiệm try to support themselves and their families khi có khả năng."
+    },
+    {
+      "id": 48,
+      "sourceRef": 48,
+      "tier": "hard",
+      "questionEn": "What does “mateship” mean?",
+      "questionVi": "“Mateship” có nghĩa là gì?",
+      "answers": [
+        {
+          "en": "Competing against neighbours",
+          "vi": "Cạnh tranh với hàng xóm"
+        },
+        {
+          "en": "Helping only close relatives",
+          "vi": "Chỉ giúp người thân"
+        },
+        {
+          "en": "Avoiding people in difficulty",
+          "vi": "Tránh xa người gặp khó khăn"
+        },
+        {
+          "en": "Helping and supporting each other, especially in times of need.",
+          "vi": "Giúp đỡ và hỗ trợ lẫn nhau, đặc biệt trong lúc khó khăn."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Hãy nghĩ tới cách cộng đồng phản ứng khi một người gặp khó khăn.",
+      "explanation": "Mateship là giúp đỡ nhau in times of need."
+    },
+    {
+      "id": 49,
+      "sourceRef": 49,
+      "tier": "easy",
+      "questionEn": "Is volunteering valued in Australia?",
+      "questionVi": "Hoạt động tình nguyện có được coi trọng tại Australia không?",
+      "answers": [
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "No, it is discouraged",
+          "vi": "Không, hoạt động này không được khuyến khích"
+        },
+        {
+          "en": "Only paid service is valued",
+          "vi": "Chỉ dịch vụ có trả tiền được coi trọng"
+        },
+        {
+          "en": "Only citizens may volunteer",
+          "vi": "Chỉ công dân được tình nguyện"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Đây là một cách trực tiếp để contribute to the community.",
+      "explanation": "Australia có truyền thống mạnh về community service and volunteering."
+    },
+    {
+      "id": 50,
+      "sourceRef": 50,
+      "tier": "hard",
+      "questionEn": "Why is volunteering encouraged?",
+      "questionVi": "Vì sao hoạt động tình nguyện được khuyến khích?",
+      "answers": [
+        {
+          "en": "It guarantees paid employment",
+          "vi": "Nó bảo đảm có việc làm trả lương"
+        },
+        {
+          "en": "It helps the community and allows people to share knowledge, learn skills and develop a sense of belonging.",
+          "vi": "Hoạt động này giúp cộng đồng, cho phép mọi người chia sẻ kiến thức, học kỹ năng và tăng cảm giác gắn bó."
+        },
+        {
+          "en": "It replaces all government services",
+          "vi": "Nó thay thế mọi dịch vụ chính phủ"
+        },
+        {
+          "en": "It is compulsory for every resident",
+          "vi": "Nó bắt buộc với mọi cư dân"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Nhớ ba lợi ích: help, learn, belong.",
+      "explanation": "Volunteering giúp cộng đồng, chia sẻ kiến thức, học kỹ năng và tăng sense of belonging."
+    },
+    {
+      "id": 51,
+      "sourceRef": 51,
+      "tier": "easy",
+      "questionEn": "What is Australia’s national language?",
+      "questionVi": "Ngôn ngữ quốc gia của Australia là gì?",
+      "answers": [
+        {
+          "en": "French",
+          "vi": "Tiếng Pháp"
+        },
+        {
+          "en": "Latin",
+          "vi": "Tiếng Latin"
+        },
+        {
+          "en": "English.",
+          "vi": "Tiếng Anh."
+        },
+        {
+          "en": "Australia has no national language",
+          "vi": "Australia không có ngôn ngữ quốc gia"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Đừng nhầm câu này với việc Australia không có national religion.",
+      "explanation": "English is the national language of Australia."
+    },
+    {
+      "id": 52,
+      "sourceRef": 52,
+      "tier": "hard",
+      "questionEn": "Why is English important in Australia?",
+      "questionVi": "Vì sao tiếng Anh quan trọng tại Australia?",
+      "answers": [
+        {
+          "en": "It is required to follow a religion",
+          "vi": "Nó cần thiết để theo một tôn giáo"
+        },
+        {
+          "en": "It replaces all community languages",
+          "vi": "Nó thay thế mọi ngôn ngữ cộng đồng"
+        },
+        {
+          "en": "It is used only by government",
+          "vi": "Nó chỉ được chính phủ sử dụng"
+        },
+        {
+          "en": "It is an important unifying element and helps people obtain education, employment and participate in the community.",
+          "vi": "Đây là yếu tố quan trọng gắn kết xã hội, giúp mọi người học tập, tìm việc và tham gia cộng đồng."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Nhớ ba lĩnh vực education, employment, integration.",
+      "explanation": "English là unifying element và hỗ trợ education, employment, community integration."
+    },
+    {
+      "id": 53,
+      "sourceRef": 53,
+      "tier": "hard",
+      "questionEn": "What should citizenship applicants do if English is not their native language?",
+      "questionVi": "Người xin quốc tịch nên làm gì nếu tiếng Anh không phải tiếng mẹ đẻ?",
+      "answers": [
+        {
+          "en": "Make reasonable efforts to learn English.",
+          "vi": "Nỗ lực hợp lý để học tiếng Anh."
+        },
+        {
+          "en": "Speak perfect English immediately",
+          "vi": "Nói tiếng Anh hoàn hảo ngay lập tức"
+        },
+        {
+          "en": "Stop using every other language",
+          "vi": "Ngừng sử dụng mọi ngôn ngữ khác"
+        },
+        {
+          "en": "Do nothing",
+          "vi": "Không cần làm gì"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Tài liệu dùng một cụm thể hiện yêu cầu hợp lý, không đòi hỏi hoàn hảo.",
+      "explanation": "Applicants must undertake to make reasonable efforts to learn English."
+    },
+    {
+      "id": 54,
+      "sourceRef": 54,
+      "tier": "hard",
+      "questionEn": "What should you do if you suspect someone is planning a serious crime?",
+      "questionVi": "Anh nên làm gì nếu nghi ngờ một người đang lên kế hoạch phạm tội nghiêm trọng?",
+      "answers": [
+        {
+          "en": "Keep it secret",
+          "vi": "Giữ bí mật"
+        },
+        {
+          "en": "Report it to the appropriate Australian authorities as soon as possible.",
+          "vi": "Báo cho cơ quan chức năng Australia phù hợp càng sớm càng tốt."
+        },
+        {
+          "en": "Investigate the person yourself",
+          "vi": "Tự điều tra người đó"
+        },
+        {
+          "en": "Post the accusation publicly",
+          "vi": "Đăng cáo buộc công khai"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Serious crime cần được chuyển cho cơ quan có thẩm quyền.",
+      "explanation": "Nghi ngờ kế hoạch phạm tội nghiêm trọng nên được report to Australian authorities as soon as possible."
+    },
+    {
+      "id": 55,
+      "sourceRef": 55,
+      "tier": "hard",
+      "questionEn": "What should you do if you know or suspect that a child is being abused?",
+      "questionVi": "Anh nên làm gì nếu biết hoặc nghi ngờ một trẻ em đang bị ngược đãi?",
+      "answers": [
+        {
+          "en": "Treat it only as a private family matter",
+          "vi": "Chỉ coi đó là chuyện riêng của gia đình"
+        },
+        {
+          "en": "Wait until the child becomes an adult",
+          "vi": "Chờ đến khi trẻ trưởng thành"
+        },
+        {
+          "en": "Report it to the police so it can be investigated.",
+          "vi": "Báo cho cảnh sát để sự việc được điều tra."
+        },
+        {
+          "en": "Share rumours online",
+          "vi": "Chia sẻ tin đồn trên mạng"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Việc bảo vệ trẻ em không phải chỉ là chuyện nội bộ gia đình.",
+      "explanation": "Knowledge or suspicion of child abuse should be reported to police for investigation."
+    },
+    {
+      "id": 56,
+      "sourceRef": 56,
+      "tier": "hard",
+      "questionEn": "Is sharing a person’s sexual images or videos online without consent acceptable?",
+      "questionVi": "Chia sẻ hình ảnh hoặc video tình dục của người khác trên mạng khi chưa được đồng ý có được chấp nhận không?",
+      "answers": [
+        {
+          "en": "Yes, if shared once",
+          "vi": "Có, nếu chỉ chia sẻ một lần"
+        },
+        {
+          "en": "Only in a private group",
+          "vi": "Chỉ trong nhóm riêng tư"
+        },
+        {
+          "en": "Yes, if the person is an adult",
+          "vi": "Có, nếu người đó trưởng thành"
+        },
+        {
+          "en": "No. It is a form of cyber abuse and may be illegal.",
+          "vi": "Không. Đây là một dạng lạm dụng trên mạng và có thể vi phạm pháp luật."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Không có consent thì không được share.",
+      "explanation": "Sharing sexual images or videos without consent là cyber abuse và nhiều trường hợp là bất hợp pháp."
+    },
+    {
+      "id": 57,
+      "sourceRef": 57,
+      "tier": "hard",
+      "questionEn": "Is online stalking acceptable?",
+      "questionVi": "Theo dõi và quấy rối một người trên mạng có được chấp nhận không?",
+      "answers": [
+        {
+          "en": "No.",
+          "vi": "Không."
+        },
+        {
+          "en": "Yes, if no physical contact occurs",
+          "vi": "Có, nếu không tiếp xúc thể chất"
+        },
+        {
+          "en": "Only on public profiles",
+          "vi": "Chỉ với hồ sơ công khai"
+        },
+        {
+          "en": "Yes, if anonymous",
+          "vi": "Có, nếu ẩn danh"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Đây là một ví dụ cụ thể của cyber abuse.",
+      "explanation": "Online stalking không được chấp nhận và là một dạng cyber abuse."
+    },
+    {
+      "id": 58,
+      "sourceRef": 58,
+      "tier": "hard",
+      "questionEn": "Is cyber abuse accepted in Australia?",
+      "questionVi": "Hành vi lạm dụng hoặc quấy rối trên mạng có được chấp nhận tại Australia không?",
+      "answers": [
+        {
+          "en": "Yes, online conduct is exempt from law",
+          "vi": "Có, hành vi online không chịu luật"
+        },
+        {
+          "en": "No. Many forms of cyber abuse are illegal.",
+          "vi": "Không. Nhiều hình thức lạm dụng trên mạng là bất hợp pháp."
+        },
+        {
+          "en": "Only racial cyber abuse is prohibited",
+          "vi": "Chỉ lạm dụng chủng tộc trên mạng bị cấm"
+        },
+        {
+          "en": "It is accepted if no name is used",
+          "vi": "Được chấp nhận nếu không dùng tên thật"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Online không phải vùng nằm ngoài pháp luật.",
+      "explanation": "Cyber abuse is not accepted; many forms are illegal in Australia."
+    },
+    {
+      "id": 59,
+      "sourceRef": 59,
+      "tier": "easy",
+      "questionEn": "To whom do Australian citizens pledge their loyalty?",
+      "questionVi": "Công dân Australia tuyên thệ trung thành với ai?",
+      "answers": [
+        {
+          "en": "Only the government of the day",
+          "vi": "Chỉ chính phủ đương nhiệm"
+        },
+        {
+          "en": "Their local council only",
+          "vi": "Chỉ hội đồng địa phương"
+        },
+        {
+          "en": "Australia and its people.",
+          "vi": "Australia và nhân dân Australia."
+        },
+        {
+          "en": "Any foreign government",
+          "vi": "Bất kỳ chính phủ nước ngoài nào"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Học nguyên cụm trong lời tuyên thệ.",
+      "explanation": "Citizens pledge loyalty to Australia and its people."
+    },
+    {
+      "id": 60,
+      "sourceRef": 60,
+      "tier": "hard",
+      "questionEn": "Can an Australian citizen also hold the citizenship of another country?",
+      "questionVi": "Công dân Australia có thể đồng thời mang quốc tịch của một quốc gia khác không?",
+      "answers": [
+        {
+          "en": "No, dual citizenship is always banned",
+          "vi": "Không, hai quốc tịch luôn bị cấm"
+        },
+        {
+          "en": "Only after age 60",
+          "vi": "Chỉ sau 60 tuổi"
+        },
+        {
+          "en": "Only with parliamentary approval",
+          "vi": "Chỉ khi nghị viện phê chuẩn"
+        },
+        {
+          "en": "Yes, if the laws of the other country allow it.",
+          "vi": "Có, nếu pháp luật của quốc gia kia cho phép."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Cần xét luật của cả quốc gia còn lại.",
+      "explanation": "Australia permits dual or multiple citizenship, nếu laws of the other country cũng cho phép."
+    },
+    {
+      "id": 61,
+      "sourceRef": 61,
+      "tier": "hard",
+      "questionEn": "Must a dual citizen obey Australian law while in Australia?",
+      "questionVi": "Người có hai quốc tịch có phải tuân thủ pháp luật Australia khi ở Australia không?",
+      "answers": [
+        {
+          "en": "Yes, at all times.",
+          "vi": "Có, vào mọi thời điểm."
+        },
+        {
+          "en": "No, they may choose either country’s law",
+          "vi": "Không, họ có thể chọn luật của một trong hai nước"
+        },
+        {
+          "en": "Only while working",
+          "vi": "Chỉ khi làm việc"
+        },
+        {
+          "en": "Only after five years",
+          "vi": "Chỉ sau năm năm"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Địa điểm đang ở quyết định hệ thống luật phải tuân thủ.",
+      "explanation": "A dual citizen within Australia must follow Australian laws at all times."
+    },
+    {
+      "id": 62,
+      "sourceRef": 62,
+      "tier": "hard",
+      "questionEn": "Do any Australian laws apply to Australian citizens while they are overseas?",
+      "questionVi": "Một số luật Australia có áp dụng với công dân Australia khi họ ở nước ngoài không?",
+      "answers": [
+        {
+          "en": "No Australian law ever applies overseas",
+          "vi": "Không luật Australia nào áp dụng ở nước ngoài"
+        },
+        {
+          "en": "Yes.",
+          "vi": "Có."
+        },
+        {
+          "en": "Only traffic laws apply",
+          "vi": "Chỉ luật giao thông áp dụng"
+        },
+        {
+          "en": "Only tax laws can apply",
+          "vi": "Chỉ luật thuế có thể áp dụng"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": "Tài liệu không nói mọi luật; hãy chú ý từ some.",
+      "explanation": "Some Australian laws must also be followed by citizens while overseas."
+    },
+    {
+      "id": 63,
+      "sourceRef": 63,
+      "tier": "hard",
+      "questionEn": "Can an Australian citizen engage in sexual activity overseas with a child under 16?",
+      "questionVi": "Công dân Australia có thể quan hệ tình dục ở nước ngoài với trẻ em dưới 16 tuổi không?",
+      "answers": [
+        {
+          "en": "Yes, if the other country allows it",
+          "vi": "Có, nếu quốc gia kia cho phép"
+        },
+        {
+          "en": "Only while on holiday",
+          "vi": "Chỉ khi đi nghỉ"
+        },
+        {
+          "en": "No. It is illegal under Australian law.",
+          "vi": "Không. Việc đó bất hợp pháp theo luật Australia."
+        },
+        {
+          "en": "Yes, with parental permission",
+          "vi": "Có, nếu cha mẹ cho phép"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": "Đây là ví dụ chính thức về luật theo công dân ra overseas.",
+      "explanation": "Australian law makes sexual activity with a child under 16 illegal here or overseas."
+    },
+    {
+      "id": 64,
+      "sourceRef": 64,
+      "tier": "hard",
+      "questionEn": "Is it acceptable to publish official Australian Government secrets on social media?",
+      "questionVi": "Công khai bí mật chính thức của Chính phủ Australia trên mạng xã hội có được chấp nhận không?",
+      "answers": [
+        {
+          "en": "Yes, if the account is private",
+          "vi": "Có, nếu tài khoản để riêng tư"
+        },
+        {
+          "en": "Only after sharing with friends",
+          "vi": "Chỉ sau khi chia sẻ với bạn bè"
+        },
+        {
+          "en": "Yes, freedom of speech has no limits",
+          "vi": "Có, tự do ngôn luận không có giới hạn"
+        },
+        {
+          "en": "No. It undermines Australia’s interests and security.",
+          "vi": "Không. Việc đó gây tổn hại đến lợi ích và an ninh của Australia."
+        }
+      ],
+      "correctIndex": 3,
+      "hint": "Loyalty bao gồm việc không làm tổn hại interests and security.",
+      "explanation": "Sharing official government secrets undermines Australia’s interests and security."
+    },
+    {
+      "id": 65,
+      "sourceRef": 65,
+      "tier": "hard",
+      "questionEn": "Is it acceptable to promote fear or distrust of an ethnic community?",
+      "questionVi": "Cổ xúy sự sợ hãi hoặc mất lòng tin đối với một cộng đồng sắc tộc có được chấp nhận không?",
+      "answers": [
+        {
+          "en": "No. It damages Australian community relations.",
+          "vi": "Không. Việc đó gây tổn hại đến quan hệ cộng đồng tại Australia."
+        },
+        {
+          "en": "Yes, during election campaigns",
+          "vi": "Có, trong chiến dịch bầu cử"
+        },
+        {
+          "en": "Only on social media",
+          "vi": "Chỉ trên mạng xã hội"
+        },
+        {
+          "en": "Yes, if no violence occurs",
+          "vi": "Có, nếu không xảy ra bạo lực"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": "Hãy chọn hành vi bảo vệ community harmony.",
+      "explanation": "Promoting fear or distrust of an ethnic community damages Australian community relations."
+    }
+  ]
+  </script>
+  <script id="game-core">
+  (() => {
+    function shuffle(items, random = Math.random) {
+      const copy = [...items];
+      for (let index = copy.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(random() * (index + 1));
+        [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+      }
+      return copy;
+    }
+
+    function selectGameQuestions(bank, random = Math.random) {
+      return ['easy', 'medium', 'hard'].flatMap(tier =>
+        shuffle(bank.filter(question => question.tier === tier), random).slice(0, 5)
+      );
+    }
+
+    function findReplacement(bank, tier, seenIds, random = Math.random) {
+      const candidates = bank.filter(question => question.tier === tier && !seenIds.has(question.id));
+      return shuffle(candidates, random)[0] ?? null;
+    }
+
+    function getFiftyFiftyHidden(question, random = Math.random) {
+      const incorrect = question.answers
+        .map((_, index) => index)
+        .filter(index => index !== question.correctIndex);
+      return shuffle(incorrect, random).slice(0, 2);
+    }
+
+    function getSafePrize(correctCount) {
+      if (correctCount >= 15) return '150.000.000₫';
+      if (correctCount >= 10) return '14.000.000₫';
+      if (correctCount >= 5) return '1.000.000₫';
+      return '0₫';
+    }
+
+    window.GameCore = {
+      shuffle,
+      selectGameQuestions,
+      findReplacement,
+      getFiftyFiftyHidden,
+      getSafePrize
+    };
+  })();
+  </script>
+  <script id="game-controller">
+  (() => {
+    const bank = JSON.parse(document.getElementById('question-bank').textContent);
+    const rewards = [
+      '100.000₫', '200.000₫', '300.000₫', '500.000₫', '1.000.000₫',
+      '2.000.000₫', '3.000.000₫', '6.000.000₫', '10.000.000₫', '14.000.000₫',
+      '22.000.000₫', '30.000.000₫', '40.000.000₫', '85.000.000₫', '150.000.000₫'
+    ];
+    const letters = ['A', 'B', 'C', 'D'];
+    const state = {
+      status: 'start',
+      questions: [],
+      seenIds: new Set(),
+      currentIndex: 0,
+      correctCount: 0,
+      locked: false,
+      hiddenAnswers: new Set(),
+      lifelines: {fifty: true, hint: true, swap: true}
+    };
+
+    const elements = {
+      startScreen: document.getElementById('start-screen'),
+      gameScreen: document.getElementById('game-screen'),
+      questionNumber: document.getElementById('question-number'),
+      questionEn: document.getElementById('question-en'),
+      questionVi: document.getElementById('question-vi'),
+      difficulty: document.getElementById('difficulty-label'),
+      answers: document.getElementById('answers'),
+      ladder: document.getElementById('ladder'),
+      mobileLevel: document.getElementById('mobile-level'),
+      mobilePrize: document.getElementById('mobile-prize'),
+      hintPanel: document.getElementById('hint-panel'),
+      feedback: document.getElementById('feedback'),
+      feedbackTitle: document.getElementById('feedback-title'),
+      feedbackExplanation: document.getElementById('feedback-explanation'),
+      feedbackPrize: document.getElementById('feedback-prize'),
+      restart: document.getElementById('restart-button'),
+      fifty: document.getElementById('lifeline-fifty'),
+      hint: document.getElementById('lifeline-hint'),
+      swap: document.getElementById('lifeline-swap'),
+      ladderToggle: document.getElementById('ladder-toggle')
+    };
+
+    function resetGame() {
+      state.status = 'start';
+      state.questions = [];
+      state.seenIds = new Set();
+      state.currentIndex = 0;
+      state.correctCount = 0;
+      state.locked = false;
+      state.hiddenAnswers = new Set();
+      state.lifelines = {fifty: true, hint: true, swap: true};
+    }
+
+    function startGame() {
+      resetGame();
+      state.questions = window.GameCore.selectGameQuestions(bank);
+      state.seenIds = new Set(state.questions.map(question => question.id));
+      state.status = 'playing';
+      elements.startScreen.hidden = true;
+      elements.gameScreen.hidden = false;
+      elements.ladder.classList.remove('open');
+      elements.ladderToggle.setAttribute('aria-expanded', 'false');
+      renderQuestion();
+    }
+
+    function currentQuestion() {
+      return state.questions[state.currentIndex];
+    }
+
+    function difficultyName(tier) {
+      return tier === 'easy' ? 'Rất dễ' : tier === 'medium' ? 'Trung bình' : 'Khó · câu bẫy';
+    }
+
+    function renderLadder() {
+      elements.ladder.innerHTML = '';
+      for (let level = 15; level >= 1; level -= 1) {
+        const row = document.createElement('div');
+        row.className = 'ladder-row';
+        if (level === state.currentIndex + 1) row.classList.add('current');
+        if (level <= state.correctCount) row.classList.add('completed');
+        if (level === 5 || level === 10) row.classList.add('safe');
+        row.innerHTML = `<span>${level === 5 || level === 10 ? '◆ ' : ''}${level}</span><strong>${rewards[level - 1]}</strong>`;
+        elements.ladder.append(row);
+      }
+    }
+
+    function setControlsLocked(locked) {
+      elements.answers.querySelectorAll('button').forEach((button, index) => {
+        button.disabled = locked || state.hiddenAnswers.has(index);
+      });
+      elements.fifty.disabled = locked || !state.lifelines.fifty;
+      elements.hint.disabled = locked || !state.lifelines.hint;
+      elements.swap.disabled = locked || !state.lifelines.swap;
+    }
+
+    function renderQuestion() {
+      const question = currentQuestion();
+      state.locked = false;
+      state.hiddenAnswers = new Set();
+      elements.questionNumber.textContent = `Câu hỏi ${state.currentIndex + 1} / 15`;
+      elements.mobileLevel.textContent = `Câu ${state.currentIndex + 1}/15`;
+      elements.mobilePrize.textContent = rewards[state.currentIndex];
+      elements.difficulty.textContent = difficultyName(question.tier);
+      elements.questionEn.textContent = question.questionEn;
+      elements.questionVi.textContent = question.questionVi;
+      elements.answers.innerHTML = '';
+      question.answers.forEach((answer, index) => {
+        const button = document.createElement('button');
+        button.className = 'answer-button';
+        button.type = 'button';
+        button.dataset.index = String(index);
+        button.setAttribute('aria-label', `${letters[index]}. ${answer.en}. ${answer.vi}`);
+        button.innerHTML = `<span class="answer-letter">${letters[index]}</span><span><strong>${answer.en}</strong><small>${answer.vi}</small></span>`;
+        button.addEventListener('click', () => selectAnswer(index));
+        elements.answers.append(button);
+      });
+      elements.hintPanel.hidden = true;
+      elements.hintPanel.textContent = '';
+      elements.feedback.hidden = true;
+      elements.feedbackTitle.textContent = '';
+      elements.feedbackExplanation.textContent = '';
+      elements.feedbackPrize.textContent = '';
+      elements.restart.hidden = true;
+      renderLadder();
+      setControlsLocked(false);
+    }
+
+    function selectAnswer(index) {
+      if (state.status !== 'playing' || state.locked || state.hiddenAnswers.has(index)) return;
+      state.locked = true;
+      setControlsLocked(true);
+      const question = currentQuestion();
+      const buttons = [...elements.answers.querySelectorAll('.answer-button')];
+      const selected = buttons[index];
+      selected.classList.add('selected');
+
+      if (index === question.correctIndex) {
+        state.correctCount += 1;
+        selected.classList.add('correct');
+        selected.insertAdjacentHTML('beforeend', '<span class="result-mark" aria-hidden="true">✓</span>');
+        if (state.correctCount === 15) {
+          window.setTimeout(() => finishGame('won'), 700);
+          return;
+        }
+        window.setTimeout(() => {
+          state.currentIndex += 1;
+          renderQuestion();
+        }, 700);
+        return;
+      }
+
+      selected.classList.add('wrong');
+      selected.insertAdjacentHTML('beforeend', '<span class="result-mark" aria-hidden="true">✕</span>');
+      buttons[question.correctIndex].classList.add('correct');
+      buttons[question.correctIndex].insertAdjacentHTML('beforeend', '<span class="result-mark" aria-hidden="true">✓</span>');
+      finishGame('lost');
+    }
+
+    function finishGame(result) {
+      state.status = result;
+      state.locked = true;
+      setControlsLocked(true);
+      elements.feedback.hidden = false;
+      elements.restart.hidden = false;
+      if (result === 'won') {
+        elements.feedback.className = 'feedback won';
+        elements.feedbackTitle.textContent = 'Chúc mừng! Anh đã chinh phục 15 câu.';
+        elements.feedbackExplanation.textContent = 'Anh đã hoàn thành thử thách Australian Values với kết quả tuyệt đối.';
+        elements.feedbackPrize.textContent = 'Giải thưởng: 150.000.000₫';
+      } else {
+        const question = currentQuestion();
+        const correct = question.answers[question.correctIndex];
+        elements.feedback.className = 'feedback lost';
+        elements.feedbackTitle.textContent = `Đáp án đúng: ${letters[question.correctIndex]} — ${correct.en}`;
+        elements.feedbackExplanation.textContent = question.explanation;
+        elements.feedbackPrize.textContent = `Mức thưởng an toàn: ${window.GameCore.getSafePrize(state.correctCount)}`;
+      }
+      elements.feedback.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+    }
+
+    function useFiftyFifty() {
+      if (state.status !== 'playing' || state.locked || !state.lifelines.fifty) return;
+      state.lifelines.fifty = false;
+      state.hiddenAnswers = new Set(window.GameCore.getFiftyFiftyHidden(currentQuestion()));
+      elements.answers.querySelectorAll('.answer-button').forEach((button, index) => {
+        if (state.hiddenAnswers.has(index)) {
+          button.classList.add('hidden-answer');
+          button.disabled = true;
+          button.setAttribute('aria-hidden', 'true');
+        }
+      });
+      setControlsLocked(false);
+    }
+
+    function useHint() {
+      if (state.status !== 'playing' || state.locked || !state.lifelines.hint) return;
+      state.lifelines.hint = false;
+      elements.hintPanel.textContent = `ChatGPT gợi ý: ${currentQuestion().hint}`;
+      elements.hintPanel.hidden = false;
+      setControlsLocked(false);
+    }
+
+    function useSwap() {
+      if (state.status !== 'playing' || state.locked || !state.lifelines.swap) return;
+      const replacement = window.GameCore.findReplacement(bank, currentQuestion().tier, state.seenIds);
+      if (!replacement) {
+        elements.hintPanel.textContent = 'Không còn câu thay thế ở cấp độ này.';
+        elements.hintPanel.hidden = false;
+        return;
+      }
+      state.lifelines.swap = false;
+      state.questions[state.currentIndex] = replacement;
+      state.seenIds.add(replacement.id);
+      state.hiddenAnswers = new Set();
+      renderQuestion();
+    }
+
+    document.getElementById('start-button').addEventListener('click', startGame);
+    elements.restart.addEventListener('click', startGame);
+    elements.fifty.addEventListener('click', useFiftyFifty);
+    elements.hint.addEventListener('click', useHint);
+    elements.swap.addEventListener('click', useSwap);
+    elements.ladderToggle.addEventListener('click', () => {
+      const open = elements.ladder.classList.toggle('open');
+      elements.ladderToggle.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('keydown', event => {
+      if (state.status !== 'playing' || state.locked) return;
+      const index = letters.indexOf(event.key.toUpperCase());
+      if (index >= 0 && !state.hiddenAnswers.has(index)) selectAnswer(index);
+    });
+
+    window.MillionaireGame = {state, startGame, renderQuestion, selectAnswer, useFiftyFifty, useHint, useSwap, finishGame, resetGame};
+  })();
+  </script>
+</body>
+</html>
